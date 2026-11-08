@@ -1,0 +1,26 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "nested-cards",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-11-08T02:45:45.218Z",
+        "reason": "Hero glass panel over the full-bleed photo is the intended single glass effect, not a card-in-card"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-11-08T02:45:45.562Z",
+        "reason": "Static scan does not resolve clamp() padding; live hero card padding measures 22-40px"
+      }
+    ]
+  }
+}
