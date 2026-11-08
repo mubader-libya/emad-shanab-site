@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>النشاطات · م. عماد شنب</title>
-<meta name="description" content="لقاءات م. عماد شنب الرسمية ومشاركاته ومقالاته، من 2020 إلى اليوم، مرتبة بتواريخها.">
+<meta name="description" content="لقاءات م. عماد شنب الرسمية ومشاركاته ومقابلاته، من 2020 إلى اليوم، مرتبة بتواريخها.">
 <meta name="theme-color" content="#EDF2F4">
 <meta name="robots" content="noindex">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="sub.css?v=1.0">
+<link rel="stylesheet" href="sub.css?v=1.1">
 </head>
 <body data-page="activities">
 <main id="main">
@@ -18,7 +18,7 @@
     <div class="wrap in">
       <nav class="trail" id="pageTrail" aria-label="أنت هنا"></nav>
       <h1>النشاطات</h1>
-      <p class="lead">لقاءات رسمية ومشاركات ومقالات ومناسبات، الأحدث أولاً. اختر النوع أو السنة، أو ابحث بكلمة.</p>
+      <p class="lead">لقاءات رسمية ومشاركات ومناسبات ومقابلات، الأحدث أولاً. اختر النوع أو السنة، أو ابحث بكلمة. ومقالاته في <a class="more" style="display:inline;min-height:0" href="blog.html">المدونة</a>.</p>
     </div>
   </header>
   <section style="padding-top:0">
@@ -35,22 +35,22 @@
 </main>
 <div class="next" id="next"></div>
 
-<script src="site-config.js?v=1.0"></script>
-<script src="act-data.js?v=1.0"></script>
-<script src="roles-data.js?v=1.0"></script>
+<script src="site-config.js?v=1.1"></script>
+<script src="act-data.js?v=1.1"></script>
+<script src="roles-data.js?v=1.1"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
-<script defer src="sub.js?v=1.0"></script>
+<script defer src="sub.js?v=1.1"></script>
 <script>
 window.PAGE = function(){
   Y.trail(document.getElementById("pageTrail"), [{t:"النشاطات"}]);
-  Y.nextChapter(document.getElementById("next"), "activities", "من هو م. عماد شنب، وأدواره اليوم، في صفحة واحدة.");
+  Y.nextChapter(document.getElementById("next"), "activities", "مقالاته عن الشباب والسلام والحوار والمصالحة في ليبيا.");
   return Y.load("activities").then(function(D){
-    var A = D.activities.sort(function(a, b){ return b.date.localeCompare(a.date); });
+    var A = D.activities.filter(function(a){ return a.k !== "article"; }).sort(function(a, b){ return b.date.localeCompare(a.date); });
     var kind = "all", year = "all", q = "", shown = 9, STEP = 9;
     var grid = document.getElementById("grid"), count = document.getElementById("count"), moreBtn = document.getElementById("moreBtn");
-    var kinds = ["meeting","event","article","occasion","interview"].filter(function(k){ return A.some(function(a){ return a.k === k; }); });
+    var kinds = ["meeting","event","occasion","interview"].filter(function(k){ return A.some(function(a){ return a.k === k; }); });
     var tabs = document.getElementById("tabs");
     tabs.innerHTML = '<button type="button" data-k="all" aria-pressed="true">الكل<span>' + A.length + '</span></button>' + kinds.map(function(k){
       return '<button type="button" data-k="' + k + '" aria-pressed="false">' + Y.KINDS_PL[k] + '<span>' + A.filter(function(a){ return a.k === k; }).length + '</span></button>';

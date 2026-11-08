@@ -9,7 +9,7 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="sub.css?v=1.0">
+<link rel="stylesheet" href="sub.css?v=1.1">
 </head>
 <body data-page="role">
 <main id="main">
@@ -18,13 +18,13 @@
 </main>
 <div class="next" id="next"></div>
 
-<script src="site-config.js?v=1.0"></script>
-<script src="act-data.js?v=1.0"></script>
-<script src="roles-data.js?v=1.0"></script>
+<script src="site-config.js?v=1.1"></script>
+<script src="act-data.js?v=1.1"></script>
+<script src="roles-data.js?v=1.1"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
-<script defer src="sub.js?v=1.0"></script>
+<script defer src="sub.js?v=1.1"></script>
 <script>
 window.PAGE = function(){
   var id = Y.param("id");
@@ -47,7 +47,7 @@ window.PAGE = function(){
       + '<aside class="aside glass rv"><dl><div><dt>النوع</dt><dd>' + (r.now ? "دور حالي" : (r.g === "role" ? "دور سابق" : "محطة")) + '</dd></div>' + (r.year ? '<div><dt>السنة</dt><dd>' + (r.id === "un-adviser" ? "منذ " : "") + r.year + '</dd></div>' : '') + '</dl>'
       + (r.more ? '<a class="more" href="' + Y.esc(r.more) + '" target="_blank" rel="noopener">المصدر والتفاصيل ' + Y.ARROW + '</a>' : '')
       + '<a class="more" href="role.html?id=' + encodeURIComponent(nx.id) + '">التالية: ' + Y.esc(nx.t) + ' ' + Y.ARROW + '</a></aside></div>';
-    Y.nextChapter(document.getElementById("next"), "journey", "اللقاءات والمشاركات والمقالات، من 2020 إلى اليوم، مرتبة بتواريخها.");
+    Y.nextChapter(document.getElementById("next"), "journey", "اللقاءات الرسمية والمشاركات، من 2020 إلى اليوم، مرتبة بتواريخها.");
   });
 };
 </script>

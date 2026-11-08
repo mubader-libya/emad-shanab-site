@@ -9,7 +9,7 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="sub.css?v=1.0">
+<link rel="stylesheet" href="sub.css?v=1.1">
 </head>
 <body data-page="activity">
 <main id="main">
@@ -18,19 +18,21 @@
 </main>
 <div class="next" id="next"></div>
 
-<script src="site-config.js?v=1.0"></script>
-<script src="act-data.js?v=1.0"></script>
-<script src="roles-data.js?v=1.0"></script>
+<script src="site-config.js?v=1.1"></script>
+<script src="act-data.js?v=1.1"></script>
+<script src="roles-data.js?v=1.1"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
-<script defer src="sub.js?v=1.0"></script>
+<script defer src="sub.js?v=1.1"></script>
 <script>
 window.PAGE = function(){
   var id = Y.param("id");
-  Y.nextChapter(document.getElementById("next"), "activities", "من هو م. عماد شنب، وأدواره اليوم، في صفحة واحدة.");
+  Y.nextChapter(document.getElementById("next"), "activities", "مقالاته عن الشباب والسلام والحوار والمصالحة في ليبيا.");
   return Y.load("activities").then(function(D){
-    var A = D.activities.sort(function(a, b){ return b.date.localeCompare(a.date); });
+    var art = D.activities.filter(function(a){ return a.k === "article" && String(a.id) === String(id); })[0];
+    if (art){ location.replace("article.html?id=" + art.id); return; }
+    var A = D.activities.filter(function(a){ return a.k !== "article"; }).sort(function(a, b){ return b.date.localeCompare(a.date); });
     var i = A.map(function(a){ return String(a.id); }).indexOf(String(id)), a = A[i];
     if (!a){
       document.title = "غير موجود · م. عماد شنب";

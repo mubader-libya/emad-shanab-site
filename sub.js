@@ -21,6 +21,10 @@
   };
   Y.KINDS = {meeting:"لقاء رسمي", event:"مشاركة", article:"مقال", occasion:"مناسبة", interview:"مقابلة"};
   Y.KINDS_PL = {meeting:"لقاءات رسمية", event:"مشاركات", article:"مقالات", occasion:"مناسبات", interview:"مقابلات"};
+  /* المقالات: مدة القراءة ومقتطف من أول فقرة */
+  Y.words = function(a){ return a.p.join(" ").split(/\s+/).filter(Boolean).length; };
+  Y.readTime = function(a){ var m = Math.max(1, Math.round(Y.words(a) / 200)); return Y.n(m, "دقيقة", "دقائق") + " قراءة"; };
+  Y.excerpt = function(a, n){ var t = (a.p[0] || "").replace(/\s+/g, " "); n = n || 170; return t.length > n ? t.slice(0, t.lastIndexOf(" ", n)) + "…" : t; };
   Y.param = function(k){ return new URLSearchParams(location.search).get(k); };
   Y.ARROW = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5m6-6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   Y.pic = function(im, sizes, alt, eager){
@@ -32,7 +36,8 @@
   Y.CHAPTERS = [
     {href:"index.html",      t:"الرئيسية", key:"home",       role:"من هو"},
     {href:"journey.html",    t:"المسيرة",  key:"journey",    role:"أدواره ومحطاته"},
-    {href:"activities.html", t:"النشاطات", key:"activities", role:"ما يفعله اليوم"}
+    {href:"activities.html", t:"النشاطات", key:"activities", role:"ما يفعله اليوم"},
+    {href:"blog.html",       t:"المدونة",  key:"blog",       role:"ما يكتبه"}
   ];
   Y.SOCIAL = [
     {t:"فيسبوك",  h:"facebook.com/Emad.Shanab.Ly",   u:"https://www.facebook.com/Emad.Shanab.Ly"},
@@ -44,7 +49,7 @@
 
   function chrome(){
     var page = document.body.dataset.page || "";
-    var cur = {role:"journey", activity:"activities"}[page] || page;
+    var cur = {role:"journey", activity:"activities", article:"blog"}[page] || page;
     var links = Y.CHAPTERS.map(function(c){ return '<a href="' + c.href + '"' + (c.key === cur ? ' aria-current="page"' : '') + '>' + c.t + '</a>'; }).join("") + '<a href="#contact">تواصل</a>';
     var top = document.createElement("header");
     top.className = "top";

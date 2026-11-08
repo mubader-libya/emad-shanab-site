@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
 <link rel="preload" as="image" href="img/hero-l.webp" imagesrcset="img/hero-s.webp 700w, img/hero-l.webp 1600w" imagesizes="100vw" fetchpriority="high">
-<link rel="stylesheet" href="sub.css?v=1.0">
+<link rel="stylesheet" href="sub.css?v=1.1">
 </head>
 <body data-page="home">
 
@@ -59,7 +59,7 @@
   <!-- آخر النشاطات المؤرخة -->
   <section aria-labelledby="latestH">
     <div class="wrap">
-      <div class="sh row rv"><div><h2 id="latestH">آخر النشاطات</h2><p>لقاءات ومشاركات ومقالات، كلٌّ بتاريخه.</p></div><a class="more" href="activities.html">كل النشاطات <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5m6-6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
+      <div class="sh row rv"><div><h2 id="latestH">آخر النشاطات</h2><p>لقاءات ومشاركات، كلٌّ بتاريخه.</p></div><a class="more" href="activities.html">كل النشاطات <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5m6-6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
       <div class="latest" id="latest"><div class="sk"></div><div class="sk"></div></div>
     </div>
   </section>
@@ -75,13 +75,13 @@
 
 <div class="next" id="next"></div>
 
-<script src="site-config.js?v=1.0"></script>
-<script src="act-data.js?v=1.0"></script>
-<script src="roles-data.js?v=1.0"></script>
+<script src="site-config.js?v=1.1"></script>
+<script src="act-data.js?v=1.1"></script>
+<script src="roles-data.js?v=1.1"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
-<script defer src="sub.js?v=1.0"></script>
+<script defer src="sub.js?v=1.1"></script>
 <script>
 window.PAGE = function(){
   function roleCard(r, eager){
@@ -97,8 +97,8 @@ window.PAGE = function(){
     var now = roles.filter(function(r){ return r.now; });
     document.getElementById("heroNow").innerHTML = now.map(function(r){ return '<span>' + Y.esc(r.t) + '</span>'; }).join("");
     document.getElementById("nowRoles").innerHTML = now.map(function(r){ return roleCard(r); }).join("");
-    /* آخر النشاطات: أحدث لقاء أو مشاركة كبيرة، ثم اثنان بعده (التهاني تُستبعد من الواجهة) */
-    var feat = acts.filter(function(a){ return a.k !== "occasion"; });
+    /* آخر النشاطات: أحدث لقاء أو مشاركة كبيرة، ثم اثنان بعده (التهاني والمقالات تُستبعد من هذا القسم) */
+    var feat = acts.filter(function(a){ return a.k !== "occasion" && a.k !== "article"; });
     document.getElementById("latest").innerHTML = actCard(feat[0], "big") + '<div class="side">' + feat.slice(1, 3).map(function(a){ return actCard(a); }).join("") + '</div>';
     var peakIds = ["misrata-tawergha", "youth-conference", "40under40"];
     document.getElementById("peaks").innerHTML = peakIds.map(function(id){ return roles.filter(function(r){ return r.id === id; })[0]; }).filter(Boolean).map(function(r){ return roleCard(r); }).join("");

@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>المدونة · م. عماد شنب</title>
+<meta name="theme-color" content="#EDF2F4">
+<meta name="robots" content="noindex">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="sub.css?v=1.1">
+</head>
+<body data-page="article">
+<main id="main">
+  <div class="wrap">
+    <article class="read">
+      <header class="phead"><div class="in"><nav class="trail" id="pageTrail" aria-label="أنت هنا"></nav><div class="meta" id="meta"></div><h1 id="t">…</h1></div></header>
+      <div id="box"><div class="sk"></div></div>
+    </article>
+  </div>
+</main>
+<div class="next" id="next"></div>
+
+<script src="site-config.js?v=1.1"></script>
+<script src="act-data.js?v=1.1"></script>
+<script src="roles-data.js?v=1.1"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script defer src="sub.js?v=1.1"></script>
+<script>
+window.PAGE = function(){
+  var id = Y.param("id");
+  Y.nextChapter(document.getElementById("next"), "blog", "من هو م. عماد شنب، وأدواره اليوم، في صفحة واحدة.");
+  return Y.load("activities").then(function(D){
+    var A = D.activities.filter(function(a){ return a.k === "article"; }).sort(function(a, b){ return b.date.localeCompare(a.date); });
+    var i = A.map(function(a){ return String(a.id); }).indexOf(String(id)), a = A[i];
+    if (!a){
+      document.title = "غير موجود · م. عماد شنب";
+      Y.trail(document.getElementById("pageTrail"), [{t:"المدونة", href:"blog.html"}, {t:"غير موجود"}]);
+      document.getElementById("t").textContent = "هذا المقال غير موجود";
+      document.getElementById("box").innerHTML = '<div class="glass empty"><p>ربما تغيّر الرابط. كل المقالات في المدونة.</p><p style="margin-top:14px"><a class="btn solid" href="blog.html">إلى المدونة</a></p></div>';
+      return;
+    }
+    document.title = a.t + " · م. عماد شنب";
+    Y.trail(document.getElementById("pageTrail"), [{t:"المدونة", href:"blog.html"}, {t:a.t}]);
+    document.getElementById("meta").innerHTML = '<span class="date">' + Y.date(a.date) + '</span><span class="rt">· ' + Y.readTime(a) + '</span>';
+    document.getElementById("t").textContent = a.t;
+    var newer = A[i - 1], older = A[i + 1];
+    document.getElementById("box").innerHTML = (a.img[0] ? '<div class="read-cover rv">' + Y.pic(a.img[0], "(max-width:760px) 100vw, 760px", a.t, true) + '</div>' : '')
+      + '<div class="read-body glass rv">' + a.p.map(function(p){ return '<p>' + Y.esc(p) + '</p>'; }).join("") + '</div>'
+      + '<nav class="read-nav" aria-label="مقالات أخرى">'
+      + (newer ? '<a class="glass rv" href="article.html?id=' + newer.id + '"><small>المقال الأحدث</small><b>' + Y.esc(newer.t) + '</b></a>' : '<span></span>')
+      + (older ? '<a class="glass rv old" href="article.html?id=' + older.id + '"><small>المقال الأقدم</small><b>' + Y.esc(older.t) + '</b></a>' : '<span></span>')
+      + '</nav>';
+  });
+};
+</script>
+</body>
+</html>
