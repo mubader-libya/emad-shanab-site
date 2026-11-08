@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>المسيرة · م. عماد شنب</title>
+<meta name="description" content="أدوار م. عماد شنب ومحطات عمله المدني: الحوار والمناظرة، والمصالحة، وتمكين الشباب، ومراقبة الانتخابات.">
+<meta name="theme-color" content="#EDF2F4">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="sub.css?v=1.0">
+</head>
+<body data-page="journey">
+<main id="main">
+  <header class="phead">
+    <div class="wrap in">
+      <nav class="trail" id="pageTrail" aria-label="أنت هنا"></nav>
+      <h1>المسيرة</h1>
+      <p class="lead">الأدوار التي تولّاها والمحطات التي شارك فيها، كما رواها في موقعه. الأدوار الحالية أولاً، ثم المحطات من الأحدث إلى الأقدم.</p>
+    </div>
+  </header>
+
+  <section style="padding-top:0" aria-labelledby="nowH">
+    <div class="wrap">
+      <div class="sh rv"><h2 id="nowH">الأدوار الحالية</h2></div>
+      <div class="roles" id="now"><div class="sk"></div><div class="sk"></div><div class="sk"></div></div>
+    </div>
+  </section>
+
+  <p class="bridge rv">قبل هذه الأدوار، <b>محطات في المصالحة والانتخابات والعمل مع الأمم المتحدة.</b></p>
+
+  <section aria-labelledby="pathH">
+    <div class="wrap">
+      <div class="sh rv"><h2 id="pathH">المحطات والأدوار السابقة</h2><p>المحطات التي ذُكرت سنتها مرتبة بها، والباقية بعدها.</p></div>
+      <div class="tl" id="tl"><div class="sk"></div></div>
+    </div>
+  </section>
+</main>
+<div class="next" id="next"></div>
+
+<script src="site-config.js?v=1.0"></script>
+<script src="act-data.js?v=1.0"></script>
+<script src="roles-data.js?v=1.0"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script defer src="sub.js?v=1.0"></script>
+<script>
+window.PAGE = function(){
+  Y.trail(document.getElementById("pageTrail"), [{t:"المسيرة"}]);
+  return Y.load("roles").then(function(D){
+    var R = D.roles;
+    document.getElementById("now").innerHTML = R.filter(function(r){ return r.now; }).map(function(r){
+      return '<a class="role glass rv" href="role.html?id=' + encodeURIComponent(r.id) + '"><div class="ph">' + (r.img ? Y.pic(r.img, "(max-width:900px) 100vw, 33vw", r.t) : '<div class="noimg">' + Y.esc(r.t) + '</div>') + '</div><div class="tx"><h3>' + Y.esc(r.t) + '</h3><p>' + Y.esc(r.p[0] || "") + '</p></div></a>';
+    }).join("");
+    var past = R.filter(function(r){ return !r.now; });
+    var dated = past.filter(function(r){ return r.year; }).sort(function(a, b){ return b.year - a.year; });
+    var rest = past.filter(function(r){ return !r.year; });
+    document.getElementById("tl").innerHTML = dated.concat(rest).map(function(r){
+      return '<div class="it rv"><a class="glass" href="role.html?id=' + encodeURIComponent(r.id) + '"><div class="tx">' + (r.year ? '<span class="yr">' + (r.id === "un-adviser" ? "منذ " : "") + r.year + '</span>' : '') + '<h3>' + Y.esc(r.t) + '</h3><p>' + Y.esc(r.p[0] || "") + '</p></div>'
+        + '<div class="ph">' + (r.img ? Y.pic(r.img, "(max-width:620px) 100vw, 180px", "") : '<div class="noimg">' + Y.esc(r.t) + '</div>') + '</div></a></div>';
+    }).join("");
+    Y.nextChapter(document.getElementById("next"), "journey", "اللقاءات والمشاركات والمقالات، من 2020 إلى اليوم، مرتبة بتواريخها.");
+  });
+};
+</script>
+</body>
+</html>

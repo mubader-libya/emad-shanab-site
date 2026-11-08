@@ -1,0 +1,17 @@
+{
+  "kind": "collectionType",
+  "collectionName": "roles",
+  "info": {"singularName": "role", "pluralName": "roles", "displayName": "دور أو محطة", "description": "الأدوار الحالية والسابقة ومحطات المسيرة"},
+  "options": {"draftAndPublish": true},
+  "attributes": {
+    "title": {"type": "string", "required": true},
+    "slug": {"type": "uid", "targetField": "title"},
+    "year": {"type": "string"},
+    "current": {"type": "boolean", "default": false},
+    "group": {"type": "enumeration", "enum": ["role", "milestone"], "default": "milestone"},
+    "body": {"type": "text"},
+    "image": {"type": "media", "multiple": false, "allowedTypes": ["images"]},
+    "moreUrl": {"type": "string"},
+    "order": {"type": "integer", "default": 99}
+  }
+}

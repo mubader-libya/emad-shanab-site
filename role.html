@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>المسيرة · م. عماد شنب</title>
+<meta name="theme-color" content="#EDF2F4">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="sub.css?v=1.0">
+</head>
+<body data-page="role">
+<main id="main">
+  <header class="phead"><div class="wrap in"><nav class="trail" id="pageTrail" aria-label="أنت هنا"></nav><h1 id="t">…</h1><p class="ch" id="ch"></p></div></header>
+  <section style="padding-top:0"><div class="wrap" id="box"><div class="sk"></div></div></section>
+</main>
+<div class="next" id="next"></div>
+
+<script src="site-config.js?v=1.0"></script>
+<script src="act-data.js?v=1.0"></script>
+<script src="roles-data.js?v=1.0"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script defer src="sub.js?v=1.0"></script>
+<script>
+window.PAGE = function(){
+  var id = Y.param("id");
+  return Y.load("roles").then(function(D){
+    var R = D.roles, i = R.map(function(r){ return r.id; }).indexOf(id), r = R[i];
+    if (!r){
+      document.title = "غير موجود · م. عماد شنب";
+      Y.trail(document.getElementById("pageTrail"), [{t:"المسيرة", href:"journey.html"}, {t:"غير موجود"}]);
+      document.getElementById("t").textContent = "هذه المحطة غير موجودة";
+      document.getElementById("box").innerHTML = '<div class="glass empty"><p>ربما تغيّر الرابط. كل الأدوار والمحطات في صفحة المسيرة.</p><p style="margin-top:14px"><a class="btn solid" href="journey.html">إلى المسيرة</a></p></div>';
+      return;
+    }
+    document.title = r.t + " · م. عماد شنب";
+    Y.trail(document.getElementById("pageTrail"), [{t:"المسيرة", href:"journey.html"}, {t:r.t}]);
+    document.getElementById("t").textContent = r.t;
+    document.getElementById("ch").textContent = (r.now ? "دور حالي" : (r.g === "role" ? "دور سابق" : "محطة")) + (r.year ? " · " + (r.id === "un-adviser" ? "منذ " : "") + r.year : "");
+    var nx = R[(i + 1) % R.length];
+    document.getElementById("box").innerHTML = (r.img ? '<div class="cover rv">' + Y.pic(r.img, "(max-width:1200px) 100vw, 1200px", r.t, true) + '</div>' : '')
+      + '<div class="item"><div class="body glass rv">' + r.p.map(function(p){ return '<p>' + Y.esc(p) + '</p>'; }).join("") + '</div>'
+      + '<aside class="aside glass rv"><dl><div><dt>النوع</dt><dd>' + (r.now ? "دور حالي" : (r.g === "role" ? "دور سابق" : "محطة")) + '</dd></div>' + (r.year ? '<div><dt>السنة</dt><dd>' + (r.id === "un-adviser" ? "منذ " : "") + r.year + '</dd></div>' : '') + '</dl>'
+      + (r.more ? '<a class="more" href="' + Y.esc(r.more) + '" target="_blank" rel="noopener">المصدر والتفاصيل ' + Y.ARROW + '</a>' : '')
+      + '<a class="more" href="role.html?id=' + encodeURIComponent(nx.id) + '">التالية: ' + Y.esc(nx.t) + ' ' + Y.ARROW + '</a></aside></div>';
+    Y.nextChapter(document.getElementById("next"), "journey", "اللقاءات والمشاركات والمقالات، من 2020 إلى اليوم، مرتبة بتواريخها.");
+  });
+};
+</script>
+</body>
+</html>

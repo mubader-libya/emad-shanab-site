@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>النشاطات · م. عماد شنب</title>
+<meta name="description" content="لقاءات م. عماد شنب الرسمية ومشاركاته ومقالاته، من 2020 إلى اليوم، مرتبة بتواريخها.">
+<meta name="theme-color" content="#EDF2F4">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="sub.css?v=1.0">
+</head>
+<body data-page="activities">
+<main id="main">
+  <header class="phead">
+    <div class="wrap in">
+      <nav class="trail" id="pageTrail" aria-label="أنت هنا"></nav>
+      <h1>النشاطات</h1>
+      <p class="lead">لقاءات رسمية ومشاركات ومقالات ومناسبات، الأحدث أولاً. اختر النوع أو السنة، أو ابحث بكلمة.</p>
+    </div>
+  </header>
+  <section style="padding-top:0">
+    <div class="wrap">
+      <div class="tools glass">
+        <div class="tabs" id="tabs" role="group" aria-label="نوع النشاط"></div>
+        <div class="find"><label class="years"><span class="sr" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">السنة</span><select id="year" aria-label="السنة"></select></label><input id="q" type="search" placeholder="ابحث في النشاطات" aria-label="ابحث في النشاطات"></div>
+      </div>
+      <p class="count" id="count" aria-live="polite"></p>
+      <div class="grid" id="grid"><div class="sk"></div><div class="sk"></div><div class="sk"></div></div>
+      <div class="pager"><button class="btn soft" id="moreBtn" type="button" hidden>عرض المزيد</button></div>
+    </div>
+  </section>
+</main>
+<div class="next" id="next"></div>
+
+<script src="site-config.js?v=1.0"></script>
+<script src="act-data.js?v=1.0"></script>
+<script src="roles-data.js?v=1.0"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script defer src="sub.js?v=1.0"></script>
+<script>
+window.PAGE = function(){
+  Y.trail(document.getElementById("pageTrail"), [{t:"النشاطات"}]);
+  Y.nextChapter(document.getElementById("next"), "activities", "من هو م. عماد شنب، وأدواره اليوم، في صفحة واحدة.");
+  return Y.load("activities").then(function(D){
+    var A = D.activities.sort(function(a, b){ return b.date.localeCompare(a.date); });
+    var kind = "all", year = "all", q = "", shown = 9, STEP = 9;
+    var grid = document.getElementById("grid"), count = document.getElementById("count"), moreBtn = document.getElementById("moreBtn");
+    var kinds = ["meeting","event","article","occasion","interview"].filter(function(k){ return A.some(function(a){ return a.k === k; }); });
+    var tabs = document.getElementById("tabs");
+    tabs.innerHTML = '<button type="button" data-k="all" aria-pressed="true">الكل<span>' + A.length + '</span></button>' + kinds.map(function(k){
+      return '<button type="button" data-k="' + k + '" aria-pressed="false">' + Y.KINDS_PL[k] + '<span>' + A.filter(function(a){ return a.k === k; }).length + '</span></button>';
+    }).join("");
+    var years = A.map(function(a){ return a.date.slice(0, 4); }).filter(function(y, i, s){ return s.indexOf(y) === i; });
+    var sel = document.getElementById("year");
+    sel.innerHTML = '<option value="all">كل السنوات</option>' + years.map(function(y){ return '<option value="' + y + '">' + y + '</option>'; }).join("");
+    function hl(t){
+      if (!q) return Y.esc(t);
+      var n = Y.norm(t), i = n.indexOf(Y.norm(q));
+      return i < 0 ? Y.esc(t) : Y.esc(t.slice(0, i)) + '<mark>' + Y.esc(t.slice(i, i + q.length)) + '</mark>' + Y.esc(t.slice(i + q.length));
+    }
+    function render(anim){
+      var list = A.filter(function(a){
+        return (kind === "all" || a.k === kind) && (year === "all" || a.date.indexOf(year) === 0)
+          && (!q || Y.norm(a.t + " " + a.p.join(" ")).indexOf(Y.norm(q)) > -1);
+      });
+      count.textContent = list.length ? (list.length === A.length ? "كل النشاطات: " : "النتائج: ") + Y.n(list.length, "نشاطاً", "نشاطات") : "";
+      grid.innerHTML = list.length ? list.slice(0, shown).map(function(a){
+        return '<a class="acard glass" href="activity.html?id=' + a.id + '"><div class="ph">' + (a.img[0] ? Y.pic(a.img[0], "(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw", a.t) : '<div class="noimg">' + Y.esc(a.t) + '</div>') + '</div>'
+          + '<div class="tx"><div class="meta"><span class="chip">' + Y.KINDS[a.k] + '</span><span class="date">' + Y.date(a.date) + '</span></div><h3>' + hl(a.t) + '</h3></div></a>';
+      }).join("") : '<div class="glass empty" style="grid-column:1/-1"><p>لا نشاط يطابق هذا الاختيار.</p><p style="margin-top:12px"><button class="btn soft" type="button" id="reset">عرض كل النشاطات</button></p></div>';
+      moreBtn.hidden = list.length <= shown;
+      var r = document.getElementById("reset");
+      if (r) r.onclick = function(){ kind = "all"; year = "all"; q = ""; document.getElementById("q").value = ""; sel.value = "all"; setTab(); render(true); };
+      if (anim && window.gsap && !document.documentElement.classList.contains("rm")) gsap.from(grid.children, {opacity:0, y:18, duration:.6, stagger:.04, ease:"power3.out", clearProps:"opacity,transform"});
+    }
+    function setTab(){ [].forEach.call(tabs.children, function(b){ b.setAttribute("aria-pressed", String(b.dataset.k === kind)); }); }
+    tabs.addEventListener("click", function(e){ var b = e.target.closest("button"); if (!b) return; kind = b.dataset.k; shown = STEP; setTab(); render(true); });
+    sel.addEventListener("change", function(){ year = sel.value; shown = STEP; render(true); });
+    var t; document.getElementById("q").addEventListener("input", function(e){ clearTimeout(t); t = setTimeout(function(){ q = e.target.value.trim(); shown = STEP; render(false); }, 180); });
+    moreBtn.addEventListener("click", function(){ shown += STEP; render(false); });
+    render(true);
+  });
+};
+</script>
+</body>
+</html>
